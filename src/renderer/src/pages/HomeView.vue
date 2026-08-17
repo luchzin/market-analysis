@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import Button from '../components/ui/button/Button.vue';
+
 const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
 </script>
 
@@ -6,7 +8,9 @@ const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
   <nav>
     <RouterLink to="/">Go to Home</RouterLink>
     <RouterLink to="/about">Go to About</RouterLink>
-    <RouterLink to="/login">Go to Login</RouterLink>
+    <Button>
+      <RouterLink to="/login">Go to Login</RouterLink>
+    </Button>
   </nav>
   <!-- <img alt="logo" class="logo" src="./assets/electron.svg" /> -->
   <div class="creator">Powered by electron-vite</div>
@@ -25,6 +29,9 @@ const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
     <div class="action">
       <a target="_blank" rel="noreferrer" @click="ipcHandle">Send IPC</a>
     </div>
+  </div>
+  <div class="flex min-h-screen items-center justify-center">
+    <h1 class="text-4xl font-bold text-emerald-400">Stock Analysis</h1>
   </div>
   <Versions></Versions>
 </template>
