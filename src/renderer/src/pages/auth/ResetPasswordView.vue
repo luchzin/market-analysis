@@ -6,21 +6,18 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { supabase } from '../lib/utils'
+import { supabase } from '../../lib/utils'
 
-const email = ref('')
-const password = ref('')
+const newPassword = ref('')
 const confirmPassword = ref('')
 const errorMessage = ref('')
-const successMessage = ref('')
 const isLoading = ref(false)
 const router = useRouter()
 
-const handleSignUp = async () => {
+const handlePasswordUpdate = async () => {
   errorMessage.value = ''
-  successMessage.value = ''
 
-  if (password.value !== confirmPassword.value) {
+  if (newPassword.value !== confirmPassword.value) {
     errorMessage.value = 'Passwords do not match.'
     return
   }
@@ -28,9 +25,8 @@ const handleSignUp = async () => {
   isLoading.value = true
 
   try {
-    const { error } = await supabase.auth.signUp({
-      email: email.value,
-      password: password.value
+    const { error } = await supabase.auth.updateUser({
+      password: newPassword.value
     })
 
     if (error) {
@@ -38,9 +34,9 @@ const handleSignUp = async () => {
       return
     }
 
-    successMessage.value = 'Account created! Please check your email to verify.'
+    router.push('/')
   } catch (err) {
-    errorMessage.value = 'An unexpected error occurred. Please try again.'
+    errorMessage.value = 'Failed to update password. Please try again.'
   } finally {
     isLoading.value = false
   }
@@ -65,41 +61,24 @@ const skipToApp = () => {
     <Card class="relative z-10 w-full max-w-md">
       <CardHeader class="items-center text-center">
         <img src="../assets/logo.png" alt="App Logo" class="mb-2 h-16 w-16 object-contain" />
-        <CardTitle class="text-2xl">Create Account</CardTitle>
-        <CardDescription>Get started with Stock Analysis</CardDescription>
+        <CardTitle class="text-2xl">Reset Password</CardTitle>
+        <CardDescription>Enter your new password below</CardDescription>
       </CardHeader>
 
       <CardContent>
-        <form @submit.prevent="handleSignUp" class="space-y-4">
+        <form @submit.prevent="handlePasswordUpdate" class="space-y-4">
           <div
             v-if="errorMessage"
             class="rounded-md bg-destructive/15 p-3 text-sm text-destructive text-center"
           >
             {{ errorMessage }}
           </div>
-          <div
-            v-if="successMessage"
-            class="rounded-md bg-emerald-500/15 p-3 text-sm text-emerald-500 text-center"
-          >
-            {{ successMessage }}
-          </div>
 
           <div class="space-y-2">
-            <Label for="email">Email</Label>
+            <Label for="newPassword">New Password</Label>
             <Input
-              id="email"
-              v-model="email"
-              type="email"
-              placeholder="developer@vuejs.org"
-              required
-            />
-          </div>
-
-          <div class="space-y-2">
-            <Label for="password">Password</Label>
-            <Input
-              id="password"
-              v-model="password"
+              id="newPassword"
+              v-model="newPassword"
               type="password"
               placeholder="••••••••"
               required
@@ -107,7 +86,7 @@ const skipToApp = () => {
           </div>
 
           <div class="space-y-2">
-            <Label for="confirmPassword">Confirm Password</Label>
+            <Label for="confirmPassword">Confirm New Password</Label>
             <Input
               id="confirmPassword"
               v-model="confirmPassword"
@@ -118,7 +97,7 @@ const skipToApp = () => {
           </div>
 
           <Button type="submit" class="w-full" :disabled="isLoading">
-            {{ isLoading ? 'Creating Account...' : 'Sign Up' }}
+            {{ isLoading ? 'Updating...' : 'Update Password' }}
           </Button>
 
           <!-- Skip Option -->
@@ -126,13 +105,6 @@ const skipToApp = () => {
             Skip for now →
           </Button>
         </form>
-
-        <p class="mt-4 text-center text-sm text-muted-foreground">
-          Already have an account?
-          <router-link to="/login" class="font-medium text-foreground hover:underline"
-            >Log in</router-link
-          >
-        </p>
       </CardContent>
     </Card>
   </div>

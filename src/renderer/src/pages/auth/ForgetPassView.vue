@@ -6,27 +6,22 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { supabase } from '../lib/utils'
+import { supabase } from '../../lib/utils'
 
-const newPassword = ref('')
-const confirmPassword = ref('')
+const email = ref('')
 const errorMessage = ref('')
+const successMessage = ref('')
 const isLoading = ref(false)
 const router = useRouter()
 
-const handlePasswordUpdate = async () => {
+const handleResetRequest = async () => {
   errorMessage.value = ''
-
-  if (newPassword.value !== confirmPassword.value) {
-    errorMessage.value = 'Passwords do not match.'
-    return
-  }
-
+  successMessage.value = ''
   isLoading.value = true
 
   try {
-    const { error } = await supabase.auth.updateUser({
-      password: newPassword.value
+    const { error } = await supabase.auth.resetPasswordForEmail(email.value, {
+      redirectTo: `${window.location.origin}/reset-password`
     })
 
     if (error) {
@@ -34,9 +29,9 @@ const handlePasswordUpdate = async () => {
       return
     }
 
-    router.push('/')
+    successMessage.value = 'Password reset instructions have been sent to your email.'
   } catch (err) {
-    errorMessage.value = 'Failed to update password. Please try again.'
+    errorMessage.value = 'An unexpected error occurred.'
   } finally {
     isLoading.value = false
   }
@@ -61,43 +56,38 @@ const skipToApp = () => {
     <Card class="relative z-10 w-full max-w-md">
       <CardHeader class="items-center text-center">
         <img src="../assets/logo.png" alt="App Logo" class="mb-2 h-16 w-16 object-contain" />
-        <CardTitle class="text-2xl">Reset Password</CardTitle>
-        <CardDescription>Enter your new password below</CardDescription>
+        <CardTitle class="text-2xl">Forgot Password</CardTitle>
+        <CardDescription>Enter your email to receive a password reset link</CardDescription>
       </CardHeader>
 
       <CardContent>
-        <form @submit.prevent="handlePasswordUpdate" class="space-y-4">
+        <form @submit.prevent="handleResetRequest" class="space-y-4">
           <div
             v-if="errorMessage"
             class="rounded-md bg-destructive/15 p-3 text-sm text-destructive text-center"
           >
             {{ errorMessage }}
           </div>
-
-          <div class="space-y-2">
-            <Label for="newPassword">New Password</Label>
-            <Input
-              id="newPassword"
-              v-model="newPassword"
-              type="password"
-              placeholder="••••••••"
-              required
-            />
+          <div
+            v-if="successMessage"
+            class="rounded-md bg-emerald-500/15 p-3 text-sm text-emerald-500 text-center"
+          >
+            {{ successMessage }}
           </div>
 
           <div class="space-y-2">
-            <Label for="confirmPassword">Confirm New Password</Label>
+            <Label for="email">Email</Label>
             <Input
-              id="confirmPassword"
-              v-model="confirmPassword"
-              type="password"
-              placeholder="••••••••"
+              id="email"
+              v-model="email"
+              type="email"
+              placeholder="developer@vuejs.org"
               required
             />
           </div>
 
           <Button type="submit" class="w-full" :disabled="isLoading">
-            {{ isLoading ? 'Updating...' : 'Update Password' }}
+            {{ isLoading ? 'Sending...' : 'Send Reset Link' }}
           </Button>
 
           <!-- Skip Option -->
@@ -105,6 +95,13 @@ const skipToApp = () => {
             Skip for now →
           </Button>
         </form>
+
+        <p class="mt-4 text-center text-sm text-muted-foreground">
+          Remembered your password?
+          <router-link to="/login" class="font-medium text-foreground hover:underline"
+            >Log in</router-link
+          >
+        </p>
       </CardContent>
     </Card>
   </div>
