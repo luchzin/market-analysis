@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { supabase } from '../../lib/utils'
+import logo from '@/assets/logo.png'
 
 const newPassword = ref('')
 const confirmPassword = ref('')
@@ -60,7 +61,7 @@ const skipToApp = () => {
 
     <Card class="relative z-10 w-full max-w-md">
       <CardHeader class="items-center text-center">
-        <img src="../assets/logo.png" alt="App Logo" class="mb-2 h-16 w-16 object-contain" />
+        <img :src="logo" alt="App Logo" class="mb-2 h-16 w-16 object-contain" />
         <CardTitle class="text-2xl">Reset Password</CardTitle>
         <CardDescription>Enter your new password below</CardDescription>
       </CardHeader>

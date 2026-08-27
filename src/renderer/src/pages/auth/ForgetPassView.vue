@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import wavyLines from '@/assets/wavy-lines.svg'
+import logo from '@/assets/logo.png'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -55,7 +56,8 @@ const skipToApp = () => {
 
     <Card class="relative z-10 w-full max-w-md">
       <CardHeader class="items-center text-center">
-        <img src="../assets/logo.png" alt="App Logo" class="mb-2 h-16 w-16 object-contain" />
+        <img :src="logo"alt="App Logo" class="mb-2 h-16 w-16 object-contain" />
+       
         <CardTitle class="text-2xl">Forgot Password</CardTitle>
         <CardDescription>Enter your email to receive a password reset link</CardDescription>
       </CardHeader>

@@ -1,13 +1,20 @@
 import type { ClassValue } from 'clsx'
 import { clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
-import { createClient } from "@supabase/supabase-js";
+import { createClient } from '@supabase/supabase-js'
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+export const supabase = createClient(supabaseUrl, supabaseKey, {
+  auth: {
+    storage: window.localStorage,
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: false
+  }
+})

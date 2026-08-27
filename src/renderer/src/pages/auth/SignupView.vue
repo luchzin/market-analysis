@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { supabase } from '../../lib/utils'
-
+import logo from '@/assets/logo.png'
 const email = ref('')
 const password = ref('')
 const confirmPassword = ref('')
@@ -15,7 +15,7 @@ const errorMessage = ref('')
 const successMessage = ref('')
 const isLoading = ref(false)
 const router = useRouter()
-
+ 
 const handleSignUp = async () => {
   errorMessage.value = ''
   successMessage.value = ''
@@ -34,6 +34,7 @@ const handleSignUp = async () => {
     })
 
     if (error) {
+       window.electron.ipcRenderer.send('log-to-main', `Supabase Error: ${error.message}`)
       errorMessage.value = error.message
       return
     }
@@ -64,7 +65,7 @@ const skipToApp = () => {
 
     <Card class="relative z-10 w-full max-w-md">
       <CardHeader class="items-center text-center">
-        <img src="../assets/logo.png" alt="App Logo" class="mb-2 h-16 w-16 object-contain" />
+        <img :src="logo" alt="App Logo" class="mb-2 h-16 w-16 object-contain" />
         <CardTitle class="text-2xl">Create Account</CardTitle>
         <CardDescription>Get started with Stock Analysis</CardDescription>
       </CardHeader>
