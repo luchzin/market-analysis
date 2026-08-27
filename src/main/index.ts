@@ -53,7 +53,7 @@ app.whenReady().then(() => {
 
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
-  ipcMain.on('log-to-main', (event, message) => {
+  ipcMain.on('log-to-main', (_event, message) => {
     console.log('[Renderer Log]:', message) 
   })
   createWindow()

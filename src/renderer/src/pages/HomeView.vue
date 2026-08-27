@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+import { supabase } from '../lib/utils'
 import {
   TrendingUp,
   BarChart3,
@@ -18,7 +20,23 @@ import CardDescription from '../components/ui/card/CardDescription.vue'
 import CardContent from '../components/ui/card/CardContent.vue'
 import Badge from '../components/ui/badge/Badge.vue'
 
-const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
+const isAuthenticated = ref(false)
+
+onMounted(() => {
+  supabase.auth.getSession().then(({ data: { session } }) => {
+    isAuthenticated.value = !!session
+  })
+
+  const {
+    data: { subscription },
+  } = supabase.auth.onAuthStateChange((_event, session) => {
+    isAuthenticated.value = !!session
+  })
+
+  onUnmounted(() => {
+    subscription.unsubscribe()
+  })
+})
 
 const marketStats = [
   { symbol: 'AAPL', name: 'Apple Inc.', price: '$189.84', change: '+1.42%', positive: true },
@@ -76,11 +94,13 @@ const features = [
         </nav>
 
         <div class="flex items-center gap-3">
-          <Button variant="ghost" size="sm" @click="ipcHandle" class="text-xs text-slate-400 hover:text-white">
-            IPC Test
-          </Button>
-          <Button size="sm" class="bg-emerald-500 font-semibold text-slate-950 hover:bg-emerald-400 shadow-lg shadow-emerald-500/20">
+          <Button v-if="!isAuthenticated" size="sm" class="bg-emerald-500 font-semibold text-slate-950 hover:bg-emerald-400 shadow-lg shadow-emerald-500/20">
             <RouterLink to="/login" class="flex items-center gap-1.5">
+              Login
+            </RouterLink>
+          </Button>
+          <Button v-else size="sm" class="bg-emerald-500 font-semibold text-slate-950 hover:bg-emerald-400 shadow-lg shadow-emerald-500/20">
+            <RouterLink to="/app" class="flex items-center gap-1.5">
               Launch App <ChevronRight class="h-4 w-4" />
             </RouterLink>
           </Button>
