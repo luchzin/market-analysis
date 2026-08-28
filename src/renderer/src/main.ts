@@ -11,9 +11,8 @@ router.beforeEach(async (to) => {
     error
   } = await supabase.auth.getUser()
   const isAuthenticated = !!user && !error
-  const authRequiredPaths = ['/app']
   const unauthOnlyPaths = ['/login', '/signup', '/forget-password', '/reset-password']
-  if (authRequiredPaths.includes(to.path) && !isAuthenticated) {
+  if (to.matched.some((record) => record.meta.requiresAuth) && !isAuthenticated) {
     return { name: 'login' }
   }
   if (unauthOnlyPaths.includes(to.path) && isAuthenticated) {

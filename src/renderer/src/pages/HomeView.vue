@@ -73,8 +73,8 @@ const features = [
   <div class="min-h-screen bg-slate-950 text-slate-50 antialiased selection:bg-emerald-500 selection:text-slate-950">
     <!-- Ambient Gradient Background -->
     <div class="pointer-events-none fixed inset-0 overflow-hidden">
-      <div class="absolute -top-40 -right-40 h-[500px] w-[500px] rounded-full bg-emerald-500/10 blur-[120px]" />
-      <div class="absolute top-1/2 -left-40 h-[500px] w-[500px] rounded-full bg-cyan-500/10 blur-[120px]" />
+      <div class="absolute -top-40 -right-40 h-125 w-125 rounded-full bg-emerald-500/10 blur-[120px]" />
+      <div class="absolute top-1/2 -left-40 h-125 w-125 rounded-full bg-cyan-500/10 blur-[120px]" />
     </div>
 
     <!-- Navigation -->
@@ -117,7 +117,7 @@ const features = [
         </Badge>
 
         <h1 class="mx-auto max-w-4xl text-4xl font-extrabold tracking-tight text-white sm:text-6xl lg:text-7xl">
-          Precision Trading Tools for <span class="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">Smart Investors</span>
+          Precision Trading Tools for <span class="bg-linear-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">Smart Investors</span>
         </h1>
 
         <p class="mx-auto mt-6 max-w-2xl text-lg text-slate-400">
