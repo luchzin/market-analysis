@@ -13,6 +13,7 @@ import ScreenerView from './pages/app/ScreenerView.vue'
 import AlgorithmsView from './pages/app/AlgorithmsView.vue'
 import AlertsView from './pages/app/AlertsView.vue'
 import SettingsView from './pages/app/SettingsView.vue'
+import ProfileView from './pages/app/ProfileView.vue'
 
 const routes = [
   { path: '/', name: 'home', component: HomeView },
@@ -31,6 +32,7 @@ const routes = [
       { path: 'screener', name: 'screener', component: ScreenerView, meta: { title: 'Screener' } },
       { path: 'algorithms', name: 'algorithms', component: AlgorithmsView, meta: { title: 'Algorithms' } },
       { path: 'alerts', name: 'alerts', component: AlertsView, meta: { title: 'Alerts' } },
+      { path: 'profile', name: 'profile', component: ProfileView, meta: { title: 'Profile' } },
       { path: 'settings', name: 'settings', component: SettingsView, meta: { title: 'Settings' } }
     ]
   }

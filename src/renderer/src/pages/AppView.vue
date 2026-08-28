@@ -17,7 +17,7 @@ import {
   SidebarInset,
   SidebarTrigger
 } from '../components/ui/sidebar'
-import { LineChart, BarChart3, TrendingUp, Search, Bell, Settings, LogOut } from 'lucide-vue-next'
+import { LineChart, BarChart3, TrendingUp, Search, Bell, Settings, User, LogOut } from 'lucide-vue-next'
 
 const router = useRouter()
 const route = useRoute()
@@ -46,6 +46,7 @@ const navSections = [
   {
     label: 'Account',
     items: [
+      { title: 'Profile', name: 'profile', icon: User },
       { title: 'Settings', name: 'settings', icon: Settings }
     ]
   }
